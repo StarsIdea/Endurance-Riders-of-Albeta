@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <title>ERA Result Program</title>
+
+  <link rel="stylesheet" href="./assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./assets/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/bootstrap-select.min.css">
+  <link rel="stylesheet" href="./assets/css/app.css">
+  
+  <script>
+    delete module.exports
+  </script>
+  <script src="./assets/js/jquery.min.js"></script>
+  <script src="./assets/js/jquery.validate.min.js"></script>
+  <script src="./assets/bootstrap.min.js"></script>
+  <script src="./assets/bootstrap-select.min.js"></script>
+
+</head>
+
+<body>
+    <div class="content">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="index.html">< Back To Event List</a>
+                </li>
+                <li>
+                    <a href="event-result.html" class="process-by-event">To Event Results</a>
+                </li>
+                <li>
+                    <a href="admin.html" class="process-by-event">To Event Admin ></a>
+                </li>
+            </ul>
+        </div>
+        <div class="event-header">
+            <div class="event-details col-xs-6">
+                <div class="name">
+                    {{ $event->name }}
+                </div>
+                <div class="date">
+                    {{ $event->date }}
+                </div>
+                <a class="btn btn-primary" data-toggle="modal" data-target="#addRace">Add Race</a>
+                <a class="btn btn-primary" data-toggle="modal" data-target="#addRider">Add Rider</a>
+            </div>
+            <div class="search col-xs-6">
+                <!--<form action="#" method="GET"> -->
+                  <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Find Rider" id="txtSearch"/>
+                        <div class="input-group-btn">
+                          <a href="javascript:search_rider();" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-search"></span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <!--</form>-->
+            </div>
+        </div>
+        <div class="content">
+            <div class="event-section col-xs-6 races">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a data-toggle="tab" href="#home">Races</a></li>
+                </ul>
+                
+                <div class="tab-content">
+                  <div id="home" class="tab-pane fade in active">
+                    <div class="list">
+                        <!-- @if($races)
+                            @foreach($races as $item)
+                            <div class="race-item race-item-{{ $item->id }}" onclick="select_race({{ $item->id }})">
+                                <div class="item-detail">
+                                    <div class="name col-xs-6">{{ $item->distance }} miles</div>
+                                    <div class="other col-xs-6">
+                                        <div class="start_time">Start time: {{ $item->start_time }}</div>
+                                        <div class="start_number">Start number: {{ $item->start_number }}</div>
+                                        <div class="hold_time">Hold time: {{ $item->hold_time }}</div>
+                                    </div>
+                                </div>
+                                <div class="item-actions">
+                                    <a href="javascript:edit_race({{ $item->id }});" class="btn btn-primary">Edit</a>
+                                    <a href="javascript:delete_race({{ $item->id }});" class="btn btn-primary">Delete</a>
+                                </div>
+                            </div>
+                            <div class="edit-race-section edit-race-section-{{ $item->id }}">
+                                <form action="#{{ $item->id }}" class="editRaceForm">
+                                      <div class="form-group col-xs-6">
+                                        <label for="name">Distance</label>
+                                        <input type="number" class="form-control" name="distance" placeholder="Distance" value="{{ $item->distance }}">
+                                      </div>
+                                      <div class="form-group col-xs-6">
+                                        <label for="date">Start Time</label>
+                                        <input type="time" class="form-control" name="start_time" placeholder="Start Time" value="{{ $item->start_time }}">
+                                      </div>
+                                      <div class="form-group col-xs-6">
+                                        <label for="date">Start Number</label>
+                                        <input type="number" class="form-control" name="start_number" placeholder="Start Number" value="{{ $item->start_number }}">
+                                      </div>
+                                      <div class="form-group col-xs-6">
+                                        <label for="date">Hold Time (In minutes)</label>
+                                        <input type="number" class="form-control" name="hold_time" placeholder="Hold Time" value="{{ $item->hold_time }}">
+                                      </div>
+                                      <div class="form-group">
+                                        <a href="javascript:editRace({{ $item->id }});" type="button" class="btn btn-primary" data-dismiss="modal">Save</a>
+                                      </div>
+                              </form>
+                            </div>
+                            <div class="delete-race-section delete-race-section-{{ $item->id }}">
+                                <h3>Are you sure you want to delete this race?</h3>
+                                <p>This cannot be undone.</p>
+                                <div class="action">
+                                    <a href="javascript:cancel_delete_race({{ $item->id }});" class="btn btn-default cancel-delete-section">cancel</a>
+                                    <a href="javascript:deleteRace({{ $item->id }});" class="btn btn-warning delete-delete-section">Delete</a>
+                                </div>
+                            </div>
+                            @endforeach
+                        @else
+                            No Event Found
+                            <p>Please add a Event.</p>
+                        @endif -->
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="riders_results-section col-xs-6">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a data-toggle="tab" href="#riders">Riders</a></li>
+                  <li><a data-toggle="tab" href="#results">Results</a></li>
+                </ul>
+                
+                <div class="tab-content">
+                  <div id="riders" class="tab-pane fade active in">
+                    <div class="list">
+                        
+                    </div>
+                  </div>
+                  <div id="results" class="tab-pane fade">
+                    <div class="list">
+                        
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="addRace" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+      
+          <div class="modal-content">
+              <form action="#" id="addRaceForm">
+                <input type="hidden" name="event_id" value="{{ $event->id }}">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Add Race</h4>
+                </div>
+                <div class="modal-body col-xs-12">
+                    <div class="form-group col-xs-6">
+                      <label for="name">Distance</label>
+                      <input type="number" class="form-control" name="distance" placeholder="Distance">
+                    </div>
+                    <div class="form-group col-xs-6">
+                      <label for="date">Start Time</label>
+                      <input type="time" class="form-control" name="start_time" placeholder="Start Time">
+                    </div>
+                    <div class="form-group col-xs-6">
+                      <label for="date">Start Number</label>
+                      <input type="number" class="form-control" name="start_number" placeholder="Start Number">
+                    </div>
+                    <div class="form-group col-xs-6">
+                      <label for="date">Hold Time (In minutes)</label>
+                      <input type="number" class="form-control" name="hold_time" placeholder="Hold Time">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <a type="button" class="btn btn-default" data-dismiss="modal">Close</a>
+                  <a href="javascript:addRace();" type="button" class="btn btn-primary">Save</a>
+                </div>
+            </form>
+          </div>
+      
+        </div>
+      </div>
+      <div id="addRider" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+      
+          <div class="modal-content col-xs-12">
+              <form action="#" id="addRiderForm">
+                  <input type="hidden" name="race_id" value="" id="current_race_id">
+                <div class="modal-header col-xs-12">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Add Rider</h4>
+                </div>
+                <div class="modal-body col-xs-12">
+                    <div class="form-group col-xs-6">
+                      <label for="name">Rider Name</label>
+                      <input type="text" class="form-control" name="rider_name" placeholder="Rider Name">
+                    </div>
+                    <div class="form-group col-xs-6">
+                      <label for="rider_id">Rider ID</label>
+                      <input type="number" class="form-control" name="rider_id" placeholder="ID">
+                    </div>
+                    <div class="form-group col-xs-6">
+                      <label for="horse_name">Horse Name</label>
+                      <input type="text" class="form-control" name="horse_name" placeholder="Horse Name">
+                    </div>
+                    <div class="form-group col-xs-6">
+                      <label for="name">Horse ID</label>
+                      <input type="text" class="form-control" name="horse_id" placeholder="Horse ID">
+                    </div>
+                    <div class="form-group col-xs-12">
+                      <label for="name">Amount Paid</label>
+                      <input type="number" class="form-control" name="amount_paid" placeholder="Amount Paid">
+                    </div>
+                    <div class="form-group col-xs-12">
+                      <label for="name">Payment Note</label>
+                      <input type="text" class="form-control" name="payment_note" placeholder="Payment Note">
+                    </div>
+                    <div class="form-group col-xs-12">
+                      <label for="name">Payment Method</label>
+                      <select name="payment_method" class="form-control" >
+                          <option value="1">Cash</option>
+                          <option value="2">Check</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-xs-12">
+                      <label for="name">Category</label>
+                      <select name="category" class="form-control" >
+                          <option value="1">Senior</option>
+                          <option value="2">Youth</option>
+                          <option value="3">Junior</option>
+                      </select>
+                    </div>
+                </div>
+                <div class="modal-footer col-xs-12">
+                  <a type="button" class="btn btn-default" data-dismiss="modal">Close</a>
+                  <a href="javascript:addRider();" type="button" class="btn btn-primary">Save</a>
+                </div>
+            </form>
+          </div>
+      
+        </div>
+      </div>
+    <script src="./event-editor.js"></script>
+</body>
+
+</html>

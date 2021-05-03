@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <title>ERA Result Program</title>
+
+  <link rel="stylesheet" href="./assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./assets/css/app.css">
+  
+  <script>
+    delete module.exports
+  </script>
+  <script src="./assets/js/jquery.min.js"></script>
+  <script src="./assets/js/jquery.printPage.js"></script>
+
+</head>
+
+<body>
+  <div class="content">
+    <div class="navigation">
+        <ul>
+            <li>
+                <a href="index.html">< Back To Event List</a>
+            </li>
+            <li>
+                <a href="event-editor.html" data-id="">To Event Editor</a>
+            </li>
+            <li>
+                <a href="admin.html" data-id="">To Event Admin ></a>
+            </li>
+        </ul>
+    </div>
+    <div class="event_list">
+        <div class="content-header">
+            <div class="event-name">
+                {{ $event->name }}
+            </div>
+            <div class="event-date">
+                {{ $event->date }}
+            </div>
+            <div class="races">
+                <select class="selectpicker" data-style="btn-primary" id="selected_race">
+                    @foreach ($races as $item)
+                        <option title="{{ $item->distance }} miles" value="{{ $item->id }}">{{ $item->distance }} miles</option>
+                    @endforeach
+                </select>
+    
+            </div>
+            <div class="action">
+                <a href="#" class="btn btn-primary btnprn">Print</a>
+            </div>
+        </div>
+        <div class="list">
+            <ul class="nav nav-tabs">
+              <li class="active"><a data-toggle="tab" href="#senior" onclick="rider_results('senior')">Senior</a></li>
+              <li><a data-toggle="tab" href="#youth" onclick="rider_results('youth')">Youth</a></li>
+              <li><a data-toggle="tab" href="#junior" onclick="rider_results('junior')">Junior</a></li>
+            </ul>
+            
+            <div class="tab-content">
+              <div id="senior" class="tab-pane fade active in">
+                <div class="list">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Placing</th>
+                          <th scope="col">Rider Number</th>
+                          <th scope="col">Rider Name</th>
+                          <th scope="col">ERA ID</th>
+                          <th scope="col">Horse Name</th>
+                          <th scope="col">Horse ERA ID</th>
+                          <th scope="col">Ride Time</th>
+                          <th scope="col">Pull Code</th>
+                          <th scope="col">Rider Weight</th>
+                          <th scope="col">Vet Score</th>
+                          <th scope="col">BC Score</th>
+                          <th scope="col">Points</th>
+                          <th scope="col">BC Points</th>
+                          <th scope="col">BC Placing</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+              <div id="youth" class="tab-pane fade">
+                <div class="list">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Placing</th>
+                          <th scope="col">Rider Number</th>
+                          <th scope="col">Rider Name</th>
+                          <th scope="col">ERA ID</th>
+                          <th scope="col">Horse Name</th>
+                          <th scope="col">Horse ERA ID</th>
+                          <th scope="col">Ride Time</th>
+                          <th scope="col">Pull Code</th>
+                          <th scope="col">Rider Weight</th>
+                          <th scope="col">Vet Score</th>
+                          <th scope="col">BC Score</th>
+                          <th scope="col">Points</th>
+                          <th scope="col">BC Points</th>
+                          <th scope="col">BC Placing</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+              <div id="junior" class="tab-pane fade">
+                <div class="list">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Placing</th>
+                          <th scope="col">Rider Number</th>
+                          <th scope="col">Rider Name</th>
+                          <th scope="col">ERA ID</th>
+                          <th scope="col">Horse Name</th>
+                          <th scope="col">Horse ERA ID</th>
+                          <th scope="col">Ride Time</th>
+                          <th scope="col">Pull Code</th>
+                          <th scope="col">Rider Weight</th>
+                          <th scope="col">Vet Score</th>
+                          <th scope="col">BC Score</th>
+                          <th scope="col">Points</th>
+                          <th scope="col">BC Points</th>
+                          <th scope="col">BC Placing</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    
+  </div>
+  
+  <script src="./event_results.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,325 @@
+body{
+    min-width: 1200px;
+}
+*{
+    outline: none;
+}
+.btn{
+    margin: 5px;
+}
+.event-item{
+    /*width: fit-content;*/
+    margin: auto;
+}
+.item-detail{
+    /*display: flex;*/
+}
+.head{
+    text-align: center;
+    display: flex;
+    width: fit-content;
+    margin: 50px auto;
+}
+.head .title,
+.event-list .action h3{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 36px;
+    margin: 0px;
+}
+.event-list{
+    text-align: center;
+    border-top: 1px solid #d9d9d9;
+    padding-top: 30px;
+    padding-bottom: 100px;
+}
+.event-list .action{
+    display: -webkit-inline-box;
+}
+.event-list .action h3{
+    font-size: 28px;
+    margin-right: 30px;
+}
+.event-list .list{
+    margin-top: 20px;
+}
+.dashboard .list{
+    width: 500px;
+    margin: auto;
+}
+.event-list .list .event-item,
+.delete-section,
+.delete-race-section,
+.delete-rider-section{
+    /*width: 500px;*/
+    margin: auto;
+    padding: 30px 20px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    margin-top: 10px;
+    text-align: left;
+}
+.delete-section,
+.delete-race-section,
+.delete-rider-section{
+    margin-top: 0px;
+    background-color: #f0ad4e29;
+    color: #865d24e8;
+    border: 1px solid #865d2426;
+    display: none;
+}
+.event-list .list .event-item .item-detail{
+    margin: 5px 10px;
+}
+.event-list .list .event-item .item-detail .name{
+    font-size: 26px;
+    margin-right: 10px;
+}
+.event-list .list .event-item .item-detail .date{
+    font-size: 22px;
+    color: #999;
+}
+.event-list .list .event-item .item-detail .name,
+.event-list .list .event-item .item-detail .date{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.modal-footer a.btn{
+    margin: 5px !important;
+}
+.navigation{
+    border-bottom: 1px solid #337ab7;
+}
+.navigation ul{
+    display: flex;
+    list-style: none;
+    width: fit-content;
+    margin: 20px auto;
+    padding: 0px;
+}
+.navigation ul li a{
+    padding: 0px 10px;
+}
+.navigation ul li:first-child a{
+    border-right: 1px solid #337ab7;
+}
+.navigation ul li:last-child a{
+    border-left: 1px solid #337ab7;
+}
+.content .event-section .nav.nav-tabs li{
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+}
+.content .nav.nav-tabs li a{
+    padding: 20px;
+}
+body>.event-header,
+body>.content{
+    max-width: 1200px;
+    margin: auto;
+}
+.event-header{
+    display: flex;
+    padding: 30px 0px 10px 0px;
+}
+.event-header .event-details{
+    display: flex;
+}
+.event-header .search #txtSearch{
+    margin: 5px;
+}
+.event-header .event-details .name,
+.event-header .event-details .date{
+    margin-right: 10px;
+    font-size: 28px;
+}
+.event-header .event-details .date{
+    color: #acacac;
+}
+.content .riders_results-section .nav.nav-tabs li{
+    width: 50%;
+}
+.race-item,
+.edit-race-section,
+.delete-race-section,
+.edit-rider-section,
+.delete-rider-section,
+.edit-result-section{
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+.form-group:last-child{
+    margin-bottom: 0px;
+}
+.edit-race-section,
+.delete-race-section,
+.edit-rider-section,
+.delete-rider-section,
+.edit-result-section{
+    display: none;
+}
+.race-item.active{
+    background-color: #337ab7;
+    color: #fff;
+}
+.list .race-item .item-detail .name{
+    font-size: 24px;
+}
+label.error{
+    color: red;
+    font-weight: 400;
+}
+#riders .rider-item .item-detail{
+    display: block;
+}
+.list .race-item .item-detail .other div{
+    margin-bottom: 10px;
+}
+#riders .rider-item,
+#results .result-item{
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+#riders .rider-item .item-detail .name,
+#riders .rider-item .item-detail .rider_id,
+#riders .rider-item .item-detail .rider_number,
+#results .result-item .item-detail .name,
+#results .result-item .item-detail .rider_id,
+#results .result-item .item-detail .rider_number{
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+#riders .rider-item .item-detail .rider_id span,
+#riders .rider-item .item-detail .rider_number span,
+#results .result-item .item-detail .rider_id span,
+#results .result-item .item-detail .rider_number span{
+    color: #acacac;
+}
+#riders .rider-item .item-detail .other,
+#results .result-item .item-detail .other{
+    margin-bottom: 10px;
+}
+.content-header{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.content-header .event-name{
+    font-size: 24px;
+    align-items: center;
+    margin-right: 10px;
+}
+.content-header .event-date{
+    font-size: 22px;
+    color: #ddd;
+    align-items: center;
+    margin-right: 10px;
+}
+.event_list{
+    padding: 30px 0px;
+}
+.auto_correct_page .navigation ul li a{
+    border: none;
+}
+.auto_correct_page .header{
+    margin: 50px auto;
+    text-align: center;
+}
+.auto_correct_page .header .title{
+    font-size: 32px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+form.search{
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+form.search input[type=text] {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    float: left;
+    width: calc(100% - 40px);
+    background: #fff;
+}
+
+form.search button {
+  float: left;
+  width: 40px;
+  padding: 5px 10px;
+  background: #f0f0f0;
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-right: 1px solid #d9d9d9;
+  cursor: pointer;
+}
+
+form.search button:hover {
+  background: #d9d9d9;
+}
+
+form.search button i{
+    color: #333;
+}
+
+form.search::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.riders_horses .riders-section,
+.riders_horses .horses-section{
+    max-width: 500px;
+    margin: auto;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    padding: 30px;
+}
+
+.riders_horses .riders-section .rider-list,
+.riders_horses .horses-section .horse-list{
+    list-style: none;
+    padding: 0px;
+    margin-top: 20px;
+}
+
+.riders_horses .riders-section .rider-list li,
+.riders_horses .horses-section .horse-list li{
+    display: inline-flex;
+    width: 100%;
+    padding: 5px;
+}
+
+.riders_horses .riders-section .rider-list li .item-content,
+.riders_horses .horses-section .horse-list li .item-content{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0px 20px;
+}
+.event_list .content-header .races .dropdown.bootstrap-select.bs3{
+    width: 150px;
+    margin-right: 10px;
+}
+.content-header .event-name,
+.content-header .race,
+.content-header .category{
+    font-size: 24px;
+    align-items: center;
+    margin-right: 10px;
+    text-transform: capitalize;
+}

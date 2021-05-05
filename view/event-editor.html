@@ -6,18 +6,16 @@
 
   <title>ERA Result Program</title>
 
-  <link rel="stylesheet" href="./assets/css/font-awesome.min.css">
-  <link rel="stylesheet" href="./assets/bootstrap.min.css">
-  <link rel="stylesheet" href="./assets/bootstrap-select.min.css">
-  <link rel="stylesheet" href="./assets/css/app.css">
+  <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/app.css">
   
   <script>
     delete module.exports
   </script>
-  <script src="./assets/js/jquery.min.js"></script>
-  <script src="./assets/js/jquery.validate.min.js"></script>
-  <script src="./assets/bootstrap.min.js"></script>
-  <script src="./assets/bootstrap-select.min.js"></script>
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/jquery.validate.min.js"></script>
+  <script src="../assets/bootstrap.min.js"></script>
 
 </head>
 
@@ -73,58 +71,6 @@
                 <div class="tab-content">
                   <div id="home" class="tab-pane fade in active">
                     <div class="list">
-                        <!-- @if($races)
-                            @foreach($races as $item)
-                            <div class="race-item race-item-{{ $item->id }}" onclick="select_race({{ $item->id }})">
-                                <div class="item-detail">
-                                    <div class="name col-xs-6">{{ $item->distance }} miles</div>
-                                    <div class="other col-xs-6">
-                                        <div class="start_time">Start time: {{ $item->start_time }}</div>
-                                        <div class="start_number">Start number: {{ $item->start_number }}</div>
-                                        <div class="hold_time">Hold time: {{ $item->hold_time }}</div>
-                                    </div>
-                                </div>
-                                <div class="item-actions">
-                                    <a href="javascript:edit_race({{ $item->id }});" class="btn btn-primary">Edit</a>
-                                    <a href="javascript:delete_race({{ $item->id }});" class="btn btn-primary">Delete</a>
-                                </div>
-                            </div>
-                            <div class="edit-race-section edit-race-section-{{ $item->id }}">
-                                <form action="#{{ $item->id }}" class="editRaceForm">
-                                      <div class="form-group col-xs-6">
-                                        <label for="name">Distance</label>
-                                        <input type="number" class="form-control" name="distance" placeholder="Distance" value="{{ $item->distance }}">
-                                      </div>
-                                      <div class="form-group col-xs-6">
-                                        <label for="date">Start Time</label>
-                                        <input type="time" class="form-control" name="start_time" placeholder="Start Time" value="{{ $item->start_time }}">
-                                      </div>
-                                      <div class="form-group col-xs-6">
-                                        <label for="date">Start Number</label>
-                                        <input type="number" class="form-control" name="start_number" placeholder="Start Number" value="{{ $item->start_number }}">
-                                      </div>
-                                      <div class="form-group col-xs-6">
-                                        <label for="date">Hold Time (In minutes)</label>
-                                        <input type="number" class="form-control" name="hold_time" placeholder="Hold Time" value="{{ $item->hold_time }}">
-                                      </div>
-                                      <div class="form-group">
-                                        <a href="javascript:editRace({{ $item->id }});" type="button" class="btn btn-primary" data-dismiss="modal">Save</a>
-                                      </div>
-                              </form>
-                            </div>
-                            <div class="delete-race-section delete-race-section-{{ $item->id }}">
-                                <h3>Are you sure you want to delete this race?</h3>
-                                <p>This cannot be undone.</p>
-                                <div class="action">
-                                    <a href="javascript:cancel_delete_race({{ $item->id }});" class="btn btn-default cancel-delete-section">cancel</a>
-                                    <a href="javascript:deleteRace({{ $item->id }});" class="btn btn-warning delete-delete-section">Delete</a>
-                                </div>
-                            </div>
-                            @endforeach
-                        @else
-                            No Event Found
-                            <p>Please add a Event.</p>
-                        @endif -->
                     </div>
                   </div>
                 </div>
@@ -247,7 +193,7 @@
       
         </div>
       </div>
-    <script src="./event-editor.js"></script>
+    <script src="../controller/event-editor.js"></script>
 </body>
 
 </html>

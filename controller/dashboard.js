@@ -36,7 +36,7 @@ $(document).ready(function(){
 
 function view_event_list(){
     eventdbInstance.readAll().then(events => {
-        console.log(events);
+        // console.log(events);
         event_list = '';
         for(i = 0; i < events.length; i ++){
             event_list += '<div class="event-item event-item-'+events[i]['_id']+'">';

@@ -1,16 +1,16 @@
 const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
-const tempHorseSchema = require('../schemas/tempHorse');
+const tempRiderSchema = require('../schemas/tempRider');
 
-class TempHorseStore {
+class TempRiderStore {
     constructor() {
         const ajv = new Ajv({
             allErrors: true,
             useDefaults: true
         });
 
-        this.schemaValidator = ajv.compile(tempHorseSchema);
-        const dbPath = `${process.cwd()}/tempHorse.db`;
+        this.schemaValidator = ajv.compile(tempRiderSchema);
+        const dbPath = `${process.cwd()}/db/tempRider.db`;
         this.db = Datastore.create({
             filename: dbPath,
             timestampData: true,
@@ -46,4 +46,4 @@ class TempHorseStore {
 
 }
 
-module.exports = new TempHorseStore();
+module.exports = new TempRiderStore();

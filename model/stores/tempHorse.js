@@ -1,16 +1,16 @@
 const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
-const todoItemSchema = require('../schemas/todoItem');
+const tempHorseSchema = require('../schemas/tempHorse');
 
-class TodoItemStore {
+class TempHorseStore {
     constructor() {
         const ajv = new Ajv({
             allErrors: true,
             useDefaults: true
         });
 
-        this.schemaValidator = ajv.compile(todoItemSchema);
-        const dbPath = `${process.cwd()}/todolist.db`;
+        this.schemaValidator = ajv.compile(tempHorseSchema);
+        const dbPath = `${process.cwd()}/db/tempHorse.db`;
         this.db = Datastore.create({
             filename: dbPath,
             timestampData: true,
@@ -28,6 +28,14 @@ class TodoItemStore {
         }
     }
 
+    find(search_value) {
+        return this.db.find({ name : new RegExp(search_value, 'g')});
+    }
+
+    delete(id) {
+        return this.db.remove({'_id': id});
+    }
+
     read(_id) {
         return this.db.findOne({_id}).exec()
     }
@@ -36,13 +44,6 @@ class TodoItemStore {
         return this.db.find()
     }
 
-    readActive() {
-        return this.db.find({isDone: false}).exec();
-    }
-
-    archive({_id}) {
-        return this.db.update({_id}, {$set: {isDone: true}})
-    }
 }
 
-module.exports = new TodoItemStore();
+module.exports = new TempHorseStore();

@@ -1,16 +1,16 @@
 const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
-const eventSchema = require('../schemas/event');
+const raceSchema = require('../schemas/race');
 
-class EventStore {
+class RaceStore {
     constructor() {
         const ajv = new Ajv({
             allErrors: true,
             useDefaults: true
         });
 
-        this.schemaValidator = ajv.compile(eventSchema);
-        const dbPath = `${process.cwd()}/event.db`;
+        this.schemaValidator = ajv.compile(raceSchema);
+        const dbPath = `${process.cwd()}/db/race.db`;
         this.db = Datastore.create({
             filename: dbPath,
             timestampData: true,
@@ -28,8 +28,16 @@ class EventStore {
         }
     }
 
+    update(id, data) {
+        return this.db.update({ _id: id}, {$set: data});
+    }
+
     delete(id) {
         return this.db.remove({'_id': id});
+    }
+
+    findRaceByEvent(event_id) {
+        return this.db.find({ event_id: event_id});
     }
 
     read(_id) {
@@ -42,4 +50,4 @@ class EventStore {
 
 }
 
-module.exports = new EventStore();
+module.exports = new RaceStore();

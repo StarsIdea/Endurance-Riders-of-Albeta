@@ -1,5 +1,7 @@
 const {remote} = require('electron');
-
+const BrowserWindow = remote.BrowserWindow;
+const url = require('url');
+const path = require('path')
 const eventdbInstance = remote.getGlobal('eventdb');
 const racedbInstance = remote.getGlobal('racedb');
 const riderdbInstance = remote.getGlobal('riderdb');
@@ -11,8 +13,25 @@ eventdbInstance.read(event_id).then(event => {
 });
 
 $(document).ready(function(){
-    $('.btnprn').printPage();
     view_rider_list();
+    
+    $('.btnprn').click(function(){
+        let win = new BrowserWindow({
+            show: false,
+            webPreferences: {
+                nodeIntegration: true
+            }
+        });
+        win.loadURL(url.format({
+            pathname: path.join(__dirname, 'rider_list_print_page.html'),
+            protocol: 'file:',
+            slashes: true
+        }))
+    
+        win.webContents.on('did-finish-load', () => {
+            win.webContents.print();
+        });
+    });
 });
 
 function view_rider_list(){
@@ -25,11 +44,11 @@ function view_rider_list(){
             rider_list = '';
             for(j = 0; j < riders.length; j ++){
                 rider_list += '<tr>';
-                rider_list += '    <td>'+riders[i].rider_number+'</td>';
-                rider_list += '    <td>'+riders[i].rider_name+'</td>';
-                rider_list += '    <td>'+riders[i].amount_paid+'</td>';
-                rider_list += '    <td>'+riders[i].payment_method+'</td>';
-                rider_list += '    <td>'+riders[i].payment_note+'</td>';
+                rider_list += '    <td>'+riders[j].rider_number+'</td>';
+                rider_list += '    <td>'+riders[j].rider_name+'</td>';
+                rider_list += '    <td>'+riders[j].amount_paid+'</td>';
+                rider_list += '    <td>'+riders[j].payment_method+'</td>';
+                rider_list += '    <td>'+riders[j].payment_note+'</td>';
                 rider_list += '    <th scope="row">';
                 rider_list += '    <div class="form-check">';
                 rider_list += '        <input';

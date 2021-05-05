@@ -1,16 +1,16 @@
 const Datastore = require('nedb-promises');
 const Ajv = require('ajv');
-const tempRiderSchema = require('../schemas/tempRider');
+const eventSchema = require('../schemas/event');
 
-class TempRiderStore {
+class EventStore {
     constructor() {
         const ajv = new Ajv({
             allErrors: true,
             useDefaults: true
         });
 
-        this.schemaValidator = ajv.compile(tempRiderSchema);
-        const dbPath = `${process.cwd()}/tempRider.db`;
+        this.schemaValidator = ajv.compile(eventSchema);
+        const dbPath = `${process.cwd()}/db/event.db`;
         this.db = Datastore.create({
             filename: dbPath,
             timestampData: true,
@@ -28,10 +28,6 @@ class TempRiderStore {
         }
     }
 
-    find(search_value) {
-        return this.db.find({ name : new RegExp(search_value, 'g')});
-    }
-
     delete(id) {
         return this.db.remove({'_id': id});
     }
@@ -46,4 +42,4 @@ class TempRiderStore {
 
 }
 
-module.exports = new TempRiderStore();
+module.exports = new EventStore();

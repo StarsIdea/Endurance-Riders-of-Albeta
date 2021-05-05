@@ -6,19 +6,16 @@
 
   <title>ERA Result Program</title>
 
-  <link rel="stylesheet" href="./assets/css/font-awesome.min.css">
-  <link rel="stylesheet" href="./assets/bootstrap.min.css">
-  <!-- <link rel="stylesheet" href="./assets/bootstrap-select.min.css"> -->
-  <link rel="stylesheet" href="./assets/css/app.css">
+  <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/app.css">
   
   <script>
     delete module.exports
   </script>
-  <script src="./assets/js/jquery.min.js"></script>
-  <script src="./assets/js/jquery.validate.min.js"></script>
-  <script src="./assets/bootstrap.min.js"></script>
-  <!-- <script src="./assets/bootstrap-select.min.js"></script> -->
-  <script src="./assets/js/jquery.printPage.js"></script>
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/jquery.validate.min.js"></script>
+  <script src="../assets/bootstrap.min.js"></script>
 
 </head>
 
@@ -40,13 +37,11 @@
     <div class="event_list">
         <div class="content-header">
             <div class="event-name">
-                {{ $event->name }}
             </div>
             <div class="event-date">
-                {{ $event->date }}
             </div>
             <div class="action">
-                <a href="/rides/app/rider_list_print_page/{{ $event->id }}" class="btn btn-primary btnprn">Print</a>
+                <button class="btn btn-primary btnprn">Print</button>
             </div>
         </div>
         <div class="list">
@@ -72,6 +67,6 @@
         </div>
     </div>
   </div>
-  <script src="./admin.js"></script>
+  <script src="../controller/admin.js"></script>
 </body>
 </html>

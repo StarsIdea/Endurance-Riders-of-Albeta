@@ -18,7 +18,7 @@ class RiderStore {
         });
 
         this.racedb = Datastore.create({
-            filename: `${process.cwd()}/race.db`,
+            filename: `${process.cwd()}/db/race.db`,
             timestampData: true,
         });
     }
@@ -44,6 +44,10 @@ class RiderStore {
 
     findRiderByEvent(event_id) {
         return this.db.find({ race_id: race_id});
+    }
+
+    getMaxRiderNumber(race_id){
+        return this.db.find({race_id: race_id}).sort({rider_number: -1}).limit(1);
     }
 
     update(id, data) {

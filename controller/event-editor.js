@@ -539,6 +539,7 @@ function addRace(){
 function addRider(){
     if(!$("#addRiderForm").valid())
         return;
+
     data = {
         rider_name: $('#addRiderForm input[name="rider_name"]').val(),
         rider_id: $('#addRiderForm input[name="rider_id"]').val(),
@@ -566,24 +567,45 @@ function addRider(){
         vetScore: '',
         race_id: $('#current_race_id').val()
     };
+    riderdbInstance.getMaxRiderNumber($('#current_race_id').val()).then(rider => {
+        console.log(rider);
+        if(rider.length > 0){
+            console.log('max');
+            console.log(rider[0].rider_number);
+            data.rider_number = (parseInt(rider[0].rider_number) + 1).toString();
+            riderdbInstance.create(data).then(rider => {
+                select_race($('#current_race_id').val());
+                $('#addRider button.close').click();
+            });
+        }
+        else{
+            console.log('start_number');
+            racedbInstance.read($('#current_race_id').val()).then(race => {
+                console.log(race);
+                start_number = race.start_number;
+                console.log(start_number);
+                data.rider_number = start_number;
+                riderdbInstance.create(data).then(rider => {
+                    select_race($('#current_race_id').val());
+                    $('#addRider button.close').click();
+                });
+            });
+        }
+        tempRiderData = {
+            name: $('#addRiderForm input[name="rider_name"]').val(),
+            id: $('#addRiderForm input[name="rider_id"]').val()
+        }
     
-    riderdbInstance.create(data).then(rider => {
-        select_race($('#current_race_id').val());
-        $('#addRider button.close').click();
+        tempRiderdbInstance.create(tempRiderData);
+    
+        tempHorseData = {
+            name: $('#addRiderForm input[name="horse_name"]').val(),
+            id: $('#addRiderForm input[name="horse_id"]').val()
+        }
+    
+        tempHorsedbInstance.create(tempHorseData);
     });
-    tempRiderData = {
-        name: $('#addRiderForm input[name="rider_name"]').val(),
-        id: $('#addRiderForm input[name="rider_id"]').val()
-    }
-
-    tempRiderdbInstance.create(tempRiderData);
-
-    tempHorseData = {
-        name: $('#addRiderForm input[name="horse_name"]').val(),
-        id: $('#addRiderForm input[name="horse_id"]').val()
-    }
-
-    tempHorsedbInstance.create(tempHorseData);
+    
 }
 
 function editRace(id){

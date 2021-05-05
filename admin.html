@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <title>ERA Result Program</title>
+
+  <link rel="stylesheet" href="./assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./assets/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="./assets/bootstrap-select.min.css"> -->
+  <link rel="stylesheet" href="./assets/css/app.css">
+  
+  <script>
+    delete module.exports
+  </script>
+  <script src="./assets/js/jquery.min.js"></script>
+  <script src="./assets/js/jquery.validate.min.js"></script>
+  <script src="./assets/bootstrap.min.js"></script>
+  <!-- <script src="./assets/bootstrap-select.min.js"></script> -->
+  <script src="./assets/js/jquery.printPage.js"></script>
+
+</head>
+
+<body>
+  <div class="content">
+    <div class="navigation">
+        <ul>
+            <li>
+                <a href="index.html">< Back To Event List</a>
+            </li>
+            <li>
+                <a href="event-editor.html">To Event Editor</a>
+            </li>
+            <li>
+                <a href="event-results.html">To Event Results ></a>
+            </li>
+        </ul>
+    </div>
+    <div class="event_list">
+        <div class="content-header">
+            <div class="event-name">
+                {{ $event->name }}
+            </div>
+            <div class="event-date">
+                {{ $event->date }}
+            </div>
+            <div class="action">
+                <a href="/rides/app/rider_list_print_page/{{ $event->id }}" class="btn btn-primary btnprn">Print</a>
+            </div>
+        </div>
+        <div class="list">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Rider Number</th>
+                  <th scope="col">Rider Name</th>
+                  <th scope="col">Paid</th>
+                  <th scope="col">Payment Method</th>
+                  <th scope="col">Payment Note</th>
+                  <th scope="col">Present</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <td scope="col-6">
+                    There is no data.
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+  <script src="./admin.js"></script>
+</body>
+</html>

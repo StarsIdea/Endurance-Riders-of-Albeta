@@ -1,14 +1,13 @@
-const horseSchema = {
+const tempHorseSchema = {
     type: 'object',
     properties: {
       name: {
         type: 'string',
       },
       id: {
-        type: 'number',
-        default: 0
+        type: 'string'
       }
     },
   };
   
-  module.exports = horseSchema;
+  module.exports = tempHorseSchema;

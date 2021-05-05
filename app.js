@@ -2,12 +2,17 @@ const {app, BrowserWindow, Menu, MenuItem} = require('electron')
 const path = require('path')
 const url = require('url')
 const eventdb = require('./db/stores/event');
-const horsedb = require('./db/stores/horse');
+const racedb = require('./db/stores/race');
 const riderdb = require('./db/stores/rider');
+const tempRiderdb = require('./db/stores/tempRider');
+const tempHorsedb = require('./db/stores/tempHorse');
 
 global.eventdb = eventdb;
-global.horsedb = horsedb;
+global.racedb = racedb;
 global.riderdb = riderdb;
+global.tempRiderdb = tempRiderdb;
+global.tempHorsedb = tempHorsedb;
+
 
 global.sharedObj = {event_id: null};
 
@@ -40,7 +45,7 @@ app.once('ready', () => {
             label: 'Edit Autocorrect',
             click(){
               window.loadURL(url.format({
-                pathname: path.join(__dirname, 'test.html'),
+                pathname: path.join(__dirname, 'auto-correct.html'),
                 protocol: 'file:',
                 slashes: true
               }))

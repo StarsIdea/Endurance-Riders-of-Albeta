@@ -36,7 +36,7 @@ $(document).ready(function(){
 
 function view_event_list(){
     eventdbInstance.readAll().then(events => {
-        // console.log(events);
+        console.log(events);
         event_list = '';
         for(i = 0; i < events.length; i ++){
             event_list += '<div class="event-item event-item-'+events[i]['_id']+'">';
@@ -60,6 +60,8 @@ function view_event_list(){
             event_list += '    </div>';
             event_list += '</div>';
         }
+        if(event_list == '')
+            event_list = '<div class="event_item">There is no data.</div>';
         $('.dashboard.event-list .list').html(event_list);
         add_action_to_object();
     });

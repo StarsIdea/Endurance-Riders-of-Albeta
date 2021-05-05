@@ -7,12 +7,17 @@
   <title>ERA Result Program</title>
 
   <link rel="stylesheet" href="./assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./assets/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="./assets/bootstrap-select.min.css"> -->
   <link rel="stylesheet" href="./assets/css/app.css">
   
   <script>
     delete module.exports
   </script>
   <script src="./assets/js/jquery.min.js"></script>
+  <script src="./assets/js/jquery.validate.min.js"></script>
+  <script src="./assets/bootstrap.min.js"></script>
+  <!-- <script src="./assets/bootstrap-select.min.js"></script> -->
   <script src="./assets/js/jquery.printPage.js"></script>
 
 </head>
@@ -42,9 +47,6 @@
             </div>
             <div class="races">
                 <select class="selectpicker" data-style="btn-primary" id="selected_race">
-                    @foreach ($races as $item)
-                        <option title="{{ $item->distance }} miles" value="{{ $item->id }}">{{ $item->distance }} miles</option>
-                    @endforeach
                 </select>
     
             </div>
@@ -144,7 +146,7 @@
     
   </div>
   
-  <script src="./event_results.js"></script>
+  <script src="./event-results.js"></script>
 </body>
 
 </html>

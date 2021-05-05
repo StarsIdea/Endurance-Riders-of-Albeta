@@ -36,6 +36,7 @@ body{
 }
 .event-list .action{
     display: -webkit-inline-box;
+    margin-bottom: 20px;
 }
 .event-list .action h3{
     font-size: 28px;

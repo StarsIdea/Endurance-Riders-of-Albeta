@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <title>ERA Result Program</title>
+
+  <link rel="stylesheet" href="./assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./assets/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="./assets/bootstrap-select.min.css"> -->
+  <link rel="stylesheet" href="./assets/css/app.css">
+  
+  <script>
+    delete module.exports
+  </script>
+  <script src="./assets/js/jquery.min.js"></script>
+  <script src="./assets/js/jquery.validate.min.js"></script>
+  <script src="./assets/bootstrap.min.js"></script>
+  <!-- <script src="./assets/bootstrap-select.min.js"></script> -->
+  <script src="./assets/js/jquery.printPage.js"></script>
+
+</head>
+
+<body>
+  <div class="content">
+    <div class="auto_correct_page">
+        <div class="navigation">
+            <ul>
+                <li>
+                    <a href="index.html">< Back To Event List</a>
+                </li>
+            </ul>
+        </div>
+        <div class="header col-xs-12">
+            <div class="title">
+                Edit Autocomplete
+            </div>
+            <p>
+                Here you can delete autocomplete rider and horse suggestion.
+            </p>
+            <p>
+                New suggestions are automatically added when you save a new rider to a race.
+            </p>
+        </div>
+        <div class="riders_horses col-xs-12">
+            <div class="col-xs-6">
+                <div class="riders-section">
+                    <form class="search">
+                      <button type="submit"><i class="fa fa-search"></i></button>
+                      <input type="text" placeholder="Find Rider" name="search" id="search_rider">
+                    </form>
+                    <ul class="rider-list">
+                        @foreach ($riders as $item)
+                            <li class="rider-item-{{ $item->id }}">
+                                <a href="javascript:delete_auto_complete_rider({{ $item->id }})" class="btn btn-danger">Delete</a>
+                                <div class="item-content">
+                                    <div class="name">
+                                        {{ $item->name }}
+                                    </div>
+                                    <div class="rider_id">
+                                        {{ $item->rider_id }}
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="horses-section">
+                    <form class="search">
+                      <button type="submit"><i class="fa fa-search"></i></button>
+                      <input type="text" placeholder="Find Horse" name="search" id="search_horse">
+                    </form>
+                    <ul class="horse-list">
+                        @foreach ($horses as $item)
+                            <li class="horse-item-{{ $item->id }}">
+                                <a href="javascript:delete_auto_complete_horse({{ $item->id }})" class="btn btn-danger">Delete</a>
+                                <div class="item-content">
+                                    <div class="name">
+                                        {{ $item->name }}
+                                    </div>
+                                    <div class="rider_id">
+                                        {{ $item->horse_id }}
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <script src="./auto-correct.js"></script>
+</body>
+</html>

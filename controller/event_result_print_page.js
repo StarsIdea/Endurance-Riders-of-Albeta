@@ -16,7 +16,7 @@ racedbInstance.read(race_id).then(race => {
     $('.event_list .race').html(race.distance + " miles");
 });
 
-$('.event_list .category').html(rider_category + "Results")
+$('.event_list .category').html(rider_category + " Results")
 
 $(document).ready(function(){
     rider_results();
@@ -28,20 +28,20 @@ function rider_results(){
         if(rider.length > 0){
             for(i = 0; i < rider.length; i ++){
                 row = '<tr>';
-                row += '<td>'+(rider[i].placing?rider[i].placing:'')+'</td>';
+                row += '<td>'+(rider[i].placing<=9999999999?rider[i].placing:'')+'</td>';
                 row += '<td>'+rider[i].rider_number+'</td>';
                 row += '<td>'+rider[i].rider_name+'</td>';
                 row += '<td>'+rider[i].rider_id+'</td>';
                 row += '<td>'+rider[i].horse_name+'</td>';
                 row += '<td>'+rider[i].horse_id+'</td>';
-                row += '<td>'+(rider[i].finish_time?rider[i].finish_time:'')+'</td>';
-                row += '<td>'+(rider[i].pull_code?rider[i].pull_code_name:'')+'</td>';
-                row += '<td>'+(rider[i].weight?rider[i].weight:'')+'</td>';
-                row += '<td>'+(rider[i].vetScore?rider[i].vetScore:'')+'</td>';
-                row += '<td>'+(rider[i].bcScore?rider[i].bcScore:'')+'</td>';
-                row += '<td>'+(rider[i].ridePoints?rider[i].ridePoints:'')+'</td>';
-                row += '<td>'+(rider[i].bcPoints?rider[i].bcPoints:'')+'</td>';
-                row += '<td>'+(rider[i].bcPlacing?rider[i].bcPlacing:'')+'</td>';
+                row += '<td>'+rider[i].rideTime+'</td>';
+                row += '<td>'+rider[i].pull_code+'</td>';
+                row += '<td>'+rider[i].weight+'</td>';
+                row += '<td>'+rider[i].vetScore+'</td>';
+                row += '<td>'+rider[i].bcScore+'</td>';
+                row += '<td>'+rider[i].ridePoints+'</td>';
+                row += '<td>'+rider[i].bcPoints+'</td>';
+                row += '<td>'+rider[i].bcPlacing+'</td>';
                 row += '</tr>';
                 if(rider[i].category == rider_category)
                     result_section += row;

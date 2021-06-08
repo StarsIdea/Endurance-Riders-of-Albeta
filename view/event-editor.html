@@ -137,28 +137,28 @@
         <div class="modal-dialog">
       
           <div class="modal-content col-xs-12">
-              <form action="#" id="addRiderForm">
+              <form action="#" id="addRiderForm" autocomplete="off">
                   <input type="hidden" name="race_id" value="" id="current_race_id">
                 <div class="modal-header col-xs-12">
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
                   <h4 class="modal-title">Add Rider</h4>
                 </div>
                 <div class="modal-body col-xs-12">
-                    <div class="form-group col-xs-6">
+                    <div class="form-group col-xs-6 auto-complete-rider">
                       <label for="name">Rider Name</label>
-                      <input type="text" class="form-control" name="rider_name" placeholder="Rider Name">
+                      <input type="text" class="form-control" name="rider_name" placeholder="Rider Name" id="create_rider_name">
                     </div>
                     <div class="form-group col-xs-6">
                       <label for="rider_id">Rider ID</label>
                       <input type="number" class="form-control" name="rider_id" placeholder="ID">
                     </div>
-                    <div class="form-group col-xs-6">
+                    <div class="form-group col-xs-6 auto-complete-horse">
                       <label for="horse_name">Horse Name</label>
-                      <input type="text" class="form-control" name="horse_name" placeholder="Horse Name">
+                      <input type="text" class="form-control" name="horse_name" placeholder="Horse Name" id="create_horse_name">
                     </div>
                     <div class="form-group col-xs-6">
                       <label for="name">Horse ID</label>
-                      <input type="text" class="form-control" name="horse_id" placeholder="Horse ID">
+                      <input type="number" class="form-control" name="horse_id" placeholder="Horse ID">
                     </div>
                     <div class="form-group col-xs-12">
                       <label for="name">Amount Paid</label>

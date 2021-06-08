@@ -24,12 +24,20 @@ class TempHorseStore {
     create(data) {
         const isValid = this.validate(data);
         if (isValid) {
-            return this.db.insert(data);
+            return this.db.insert(data, { upsert: true });
         }
     }
 
+    exist(data) {
+        return this.db.findOne(data).exec();
+    }
+    
     find(search_value) {
-        return this.db.find({ name : new RegExp(search_value, 'g')});
+        return this.db.find({ $or: [{name : new RegExp(search_value, 'g')}, {id : new RegExp(search_value, 'g')}]});
+    }
+
+    findByName(name) {
+        return this.db.findOne({ name: name}).exec();
     }
 
     delete(id) {

@@ -36,7 +36,6 @@ $(document).ready(function(){
 
 function view_event_list(){
     eventdbInstance.readAll().then(events => {
-        // console.log(events);
         event_list = '';
         for(i = 0; i < events.length; i ++){
             event_list += '<div class="event-item event-item-'+events[i]['_id']+'">';
@@ -74,7 +73,6 @@ function add_action_to_object(){
     $('.process-by-event').click(function(e){
         e.preventDefault();
         remote.getGlobal('sharedObj').event_id = $(this).attr('data-id');
-        // remote.getGlobal('event_id') = $(this).attr('data-id');
         document.location.href=$(this).attr("href");
     });
 }
@@ -92,6 +90,7 @@ function addEvent(){
     console.log(eventdbInstance.validate(data));
     eventdbInstance.create(data).then(result => {
         $('#addEvent button.close').click();
+        $("#addEventForm")[0].reset();
         view_event_list();
     });
 }

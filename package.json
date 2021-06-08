@@ -1,5 +1,5 @@
 {
-  "name": "hash",
+  "name": "ERA-APP",
   "version": "1.0.0",
   "description": "See the various hash values of entered text",
   "repository": "electron/simple-samples",
@@ -9,7 +9,8 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "electron": "^3.0.2"
+    "electron": "^3.0.2",
+    "electron-wix-msi": "^3.2.0"
   },
   "dependencies": {
     "ajv": "^8.2.0",

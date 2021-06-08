@@ -28,14 +28,14 @@ let window = null
 
 app.once('ready', () => {
   window = new BrowserWindow({
-    width: 1440,
+    width: 1600,
     height: 1024,
     backgroundColor: "#fff",
-    icon: './assets/image/favicon.ico',
+    icon: __dirname + '/favicon.ico',
     show: false
   })
 
-  window.webContents.openDevTools()
+  // window.webContents.openDevTools()
   window.loadURL(url.format({
     pathname: path.join(__dirname, './view/index.html'),
     protocol: 'file:',

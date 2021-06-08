@@ -11,14 +11,9 @@ class RiderStore {
         });
 
         this.schemaValidator = ajv.compile(riderSchema);
-        const dbPath = `${process.cwd()}/rider.db`;
+        const dbPath = `${process.cwd()}/db/rider.db`;
         this.db = Datastore.create({
             filename: dbPath,
-            timestampData: true,
-        });
-
-        this.racedb = Datastore.create({
-            filename: `${process.cwd()}/db/race.db`,
             timestampData: true,
         });
     }
@@ -35,11 +30,11 @@ class RiderStore {
     }
 
     findRiderByRace(race_id, search_value = '') {
-        return this.db.find({ race_id: race_id, rider_name: new RegExp(search_value, 'g')});
+        return this.db.find({ race_id: race_id, rider_name: new RegExp(search_value, 'g')}).sort({placing: 1});
     }
 
     findRidersByRaces(raceIds) {
-        return this.db.find({ race_id : {$in : raceIds }});
+        return this.db.find({ race_id : {$in : raceIds }}).sort({rider_number: 1});
     }
 
     findRiderByEvent(event_id) {
@@ -64,6 +59,16 @@ class RiderStore {
 
     readAll() {
         return this.db.find()
+    }
+
+    findRiderByRace_rank(race_id, rider_category) {
+        return this.db.find({ race_id: race_id, category: rider_category
+            // , finish_time: {$ne: "00:00"} 
+        });
+    }
+
+    findMaxWeight(race_id, rider_category) {
+        return this.db.find({ race_id: race_id, category: rider_category }).sort({weight: -1}).limit(1).exec();
     }
 
 }

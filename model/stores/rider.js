@@ -30,7 +30,11 @@ class RiderStore {
     }
 
     findRiderByRace(race_id, search_value = '') {
-        return this.db.find({ race_id: race_id, rider_name: new RegExp(search_value, 'g')}).sort({placing: 1});
+        return this.db.find({ race_id: race_id, rider_name: new RegExp(search_value, 'g')}).sort({placing: 1, rider_number: 1});
+    }
+
+    findRider(race_id, search_value = '') {
+        return this.db.find({ race_id: race_id, rider_name: new RegExp(search_value, 'g')}).sort({rider_number: 1});
     }
 
     findRidersByRaces(raceIds) {
@@ -64,7 +68,7 @@ class RiderStore {
     findRiderByRace_rank(race_id, rider_category) {
         return this.db.find({ race_id: race_id, category: rider_category
             // , finish_time: {$ne: "00:00"} 
-        });
+        }).sort({'finish_time': 1});
     }
 
     findMaxWeight(race_id, rider_category) {

@@ -58,6 +58,7 @@ function rider_results(rider_category = 'senior'){
             for(i = 0; i < rider.length; i ++){
                 row = '<tr>';
                 row += '<td>'+(rider[i].placing<=9999999999?rider[i].placing:'')+'</td>';
+                // row += '<td>'+rider[i].placing+'</td>';
                 row += '<td>'+rider[i].rider_number+'</td>';
                 row += '<td>'+rider[i].rider_name+'</td>';
                 row += '<td>'+rider[i].rider_id+'</td>';
@@ -113,6 +114,8 @@ function calucate_result(rider_category){
                         else{
                             rider[i].placing = 9999999999999;
                         }
+                        rider[i].vetScore = '';
+                        rider[i].bcScore = '';
                         continue;
                     }
                     rider[i].placing = ranking;
@@ -133,17 +136,18 @@ function calucate_result(rider_category){
                     }
                     rider[i].vetScore = (rider[i].recovery_score *  10 + rider[i].hydration_score *  10 + rider[i].lesions_score *  10 + rider[i].soundness_score *  10 + rider[i].quality_of_movement_score *  10);
                     rider[i].ridePoints = points;
-                    if(distance >= 50){
+                    // if(distance >= 50){
                         rider[i].bcScore = rider[i].vetScore * 1 + (200 - (finish_time_to_minute(rider[i].finish_time) * 1 - finish_time_to_minute(rider[0].finish_time) * 1)/60) + (100 - (max_weight_rider[0].weight * 1 - rider[i].weight * 1)/2);
                         rider[i].bcScore = Math.floor(rider[i].bcScore*100)/100;
-                    }
+                    // }
                 }
                 rider.sort((a,b) =>  b.bcScore-a.bcScore );
                 for(i = 0; i < rider.length; i ++){
                     if(rider[i].bcScore == '' || i > 10){
-                        break;
+                        rider[i].bcPlacing = '';
+                        continue;
                     }
-                    if(i == 0){
+                    if(i == 0 && distance >= 50){
                         if(rider_total_number < 10)
                             rider[i].bcPoints = 0.1 * rider_total_number * distance;
                         else

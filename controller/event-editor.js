@@ -202,7 +202,7 @@ function select_race(race_id, search_value = ""){
         'Time'
     ];
 
-    riderdbInstance.findRiderByRace(race_id, search_value).then(rider => {
+    riderdbInstance.findRider(race_id, search_value).then(rider => {
         riders_section = '';
         results_section = '';
         for(var i = 0; i < rider.length; i ++){
@@ -629,7 +629,7 @@ function addRider(){
             payment_note: $('#addRiderForm input[name="payment_note"]').val(),
             payment_method: $('#addRiderForm select[name="payment_method"]').val(),
             category: $('#addRiderForm select[name="category"]').val(),
-            rider_number: '',
+            rider_number: 0,
             pull_code: 'None',
             finish_time: '00:00',
             recovery_score: '',
@@ -652,7 +652,7 @@ function addRider(){
             if(rider.length > 0){
                 console.log('max');
                 console.log(rider[0].rider_number);
-                data.rider_number = (parseInt(rider[0].rider_number) + 1).toString();
+                data.rider_number = parseInt(rider[0].rider_number) + 1;
                 riderdbInstance.create(data).then(rider => {
                     select_race($('#current_race_id').val());
                     $('#addRiderForm')[0].reset();
@@ -665,7 +665,7 @@ function addRider(){
                     console.log(race);
                     start_number = race.start_number;
                     console.log(start_number);
-                    data.rider_number = start_number;
+                    data.rider_number = parseInt(start_number);
                     riderdbInstance.create(data).then(rider => {
                         select_race($('#current_race_id').val());
                         $('#addRiderForm')[0].reset();
@@ -740,7 +740,7 @@ function editRider(id){
         rider_id: $(".edit-rider-section-"+id+" form input[name='rider_id']").val(),
         horse_name: $(".edit-rider-section-"+id+" form input[name='horse_name']").val(),
         horse_id: $(".edit-rider-section-"+id+" form input[name='horse_id']").val(),
-        rider_number: $(".edit-rider-section-"+id+" form input[name='rider_number']").val(),
+        rider_number: parseInt($(".edit-rider-section-"+id+" form input[name='rider_number']").val()),
         amount_paid: $(".edit-rider-section-"+id+" form input[name='amount_paid']").val(),
         payment_note: $(".edit-rider-section-"+id+" form input[name='payment_note']").val(),
         payment_method: $(".edit-rider-section-"+id+" form select[name='payment_method']").val(),

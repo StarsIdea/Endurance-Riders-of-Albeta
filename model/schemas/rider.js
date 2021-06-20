@@ -26,8 +26,8 @@ const riderSchema = {
           type: 'string'
       },
       rider_number: {
-          type: 'string',
-          default: '0'
+          type: 'integer',
+          default: 0
       },
       pull_code: {
           type: 'string'

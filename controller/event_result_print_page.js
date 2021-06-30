@@ -42,6 +42,11 @@ function rider_results(){
                 row += '<td>'+rider[i].ridePoints+'</td>';
                 row += '<td>'+rider[i].bcPoints+'</td>';
                 row += '<td>'+rider[i].bcPlacing+'</td>';
+                field_for_completed_only = '';
+                if(rider[i].completed_only != undefined)
+                    if(rider[i].completed_only)
+                        field_for_completed_only = '<input type="checkbox" checked disabled>';
+                row += '<td>'+field_for_completed_only+'</td>';
                 row += '</tr>';
                 if(rider[i].category == rider_category)
                     result_section += row;

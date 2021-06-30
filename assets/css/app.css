@@ -398,3 +398,18 @@ form select[name="category"]{
 .editRaceForm{
     display: flow-root;
 }
+
+.completed-only{
+    height: 40px;
+    margin-top: 10px;
+}
+
+.completed-only label{
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.completed-only input[type="checkbox"]{
+    height: 20px;
+    width: 20px;
+}

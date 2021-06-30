@@ -57,6 +57,7 @@ $(document).ready(function(){
 
             start_time: {
                 required: true,
+                step: false,
             },
             
             start_number: {
@@ -95,7 +96,7 @@ $(document).ready(function(){
             },
             
             rider_id: {
-                required: true,
+                // required: true,
             },
             
             horse_name: {
@@ -104,7 +105,7 @@ $(document).ready(function(){
             },
             
             horse_id: {
-                required: true,
+                // required: true,
             },
 
             amount_paid: {
@@ -198,14 +199,18 @@ function select_race(race_id, search_value = ""){
         'None',
         'Lame',
         'Metabolic',
+        'Horse Injured',
+        'Time',
+        'Disqualified',
         'Rider Option',
-        'Time'
+        'Rider Option-Lame',
+        'Rider Option-Metabolic'
     ];
 
     riderdbInstance.findRider(race_id, search_value).then(rider => {
         riders_section = '';
         results_section = '';
-        for(var i = 0; i < rider.length; i ++){
+        for(var i = rider.length-1; i >= 0; i --){
             riders_section += '<div class="rider-item rider-item-'+rider[i]._id+'">';
             riders_section += '<div class="item-detail">';
             riders_section += '<div class="name col-xs-6">'+rider[i].rider_name+'</div>';
@@ -314,7 +319,11 @@ function select_race(race_id, search_value = ""){
                 results_section += '<div class="other quality_of_movement_score col-xs-6">Quality of Movement Score: '+rider[i].quality_of_movement_score+'</div>';
                 results_section += '<div class="other hydration-score col-xs-6">Hydration Score: '+rider[i].hydration_score+'</div>';
                 results_section += '<div class="other weight col-xs-6">Weight(in lbs): '+rider[i].weight+'</div>';
-                results_section += '<div class="other lesions-score col-xs-6">Lesions Score: '+rider[i].lesions_score+'</div>';
+                results_section += '<div class="other lesions-score col-xs-12">Lesions Score: '+rider[i].lesions_score+'</div>';
+                if(rider[i].completed_only!=undefined)
+                    results_section += '<div class="other completed-only col-xs-12" '+(rider[i].completed_only?'':'style="display:none;"')+'>Completed Only</div>';
+                else
+                    results_section += '<div class="other completed-only col-xs-12" style="display:none;">Completed Only</div>';
             // }
             results_section += '</div>';
             //////////////////////////////////////////////////////////////////////
@@ -325,23 +334,26 @@ function select_race(race_id, search_value = ""){
             results_section += '<div class="edit-result-section edit-result-section-'+rider[i]._id+' col-xs-12">';
             results_section += '<form action="#'+rider[i]._id+'" class="editResultForm ';
             if(rider[i].pull_code != "None")
-            results_section += 'pull_code_exist';
+                results_section += 'pull_code_exist ';
+            if(rider[i].completed_only!=undefined)
+                results_section += (rider[i].completed_only?"completed_only":"");
+
             results_section += '">';
 
             results_section += '<div class="form-group col-xs-6">';
             results_section += '    <label for="name">Pull Code</label>';
             results_section += '    <select name="pull_code" class="form-control" onchange="selected_pull_code($(this).val(), '+"'"+rider[i]._id+"'"+')">';
 
-            for(index = 0; index < 5; index ++)
+            for(index = 0; index < pull_code.length; index ++)
                 if(pull_code[index] == rider[i].pull_code)
                     results_section += '<option value="'+pull_code[index]+'" selected>'+rider[i].pull_code+'</option>';
                 else
                     results_section += '<option value="'+pull_code[index]+'">'+pull_code[index]+'</option>';
             results_section += '    </select>';
             results_section += '</div>';
-            results_section += '<div class="form-group col-xs-6 other">';
+            results_section += '<div class="form-group col-xs-6 other finish_time">';
             results_section += '    <label for="rider_id">Finish Time</label>';
-            results_section += '    <input type="time" class="form-control" name="finish_time" placeholder="Finish Time" value="'+rider[i].finish_time+'">';
+            results_section += '    <input type="time" class="form-control" name="finish_time" placeholder="Finish Time" value="'+rider[i].finish_time+'" step="2">';
             results_section += '</div>';
             results_section += '<div class="form-group col-xs-6 other">';
             results_section += '    <label for="horse_name">Recovery Score</label>';
@@ -368,6 +380,13 @@ function select_race(race_id, search_value = ""){
             results_section += '    <input type="number" class="form-control" name="weight" placeholder="Weight" value="'+rider[i].weight+'">';
             results_section += '</div>';
 
+            results_section += '<div class="form-group col-xs-12 completed-only">';
+            results_section += '    <label for="name">Completed Only</label>';
+            if(rider[i].completed_only==undefined)
+                results_section += '    <input type="checkbox" name="completed_only" >';
+            else
+                results_section += '    <input type="checkbox" name="completed_only" '+(rider[i].completed_only?"checked":"")+'>';
+            results_section += '</div>';
             results_section += '<div class="form-group col-xs-12">';
             results_section += '    <a href="javascript:editRiderResult('+"'"+rider[i]._id+"'"+');" type="button" class="btn btn-primary">Save</a>';
             results_section += '</div>';
@@ -378,8 +397,11 @@ function select_race(race_id, search_value = ""){
         }
         $('#riders.tab-pane .list').html(riders_section);
         $('#results.tab-pane .list').html(results_section);
+        add_event_on_completed_only();
         $('.pull_code_exist .other').hide();
         $('.pull_code_exist .pull-code').show();
+        $('.editResultForm.completed_only .other').hide();
+        $('.editResultForm.completed_only .other.finish_time').show();
         $('form.editRiderForm').each(function() {
             $(this).validate({
         
@@ -390,7 +412,7 @@ function select_race(race_id, search_value = ""){
                     },
     
                     rider_id: {
-                        required: true,
+                        // required: true,
                     },
                     
                     horse_name: {
@@ -399,7 +421,7 @@ function select_race(race_id, search_value = ""){
                     },
                     
                     horse_id: {
-                        required: true,
+                        // required: true,
                     },
 
                     rider_number: {
@@ -509,7 +531,7 @@ function view_races(){
             race_list += '          </div>';
             race_list += '          <div class="form-group col-xs-6">';
             race_list += '            <label for="date">Start Time</label>';
-            race_list += '            <input type="time" class="form-control" name="start_time" placeholder="Start Time" value="'+race[i].start_time+'">';
+            race_list += '            <input type="time" class="form-control" name="start_time" placeholder="Start Time" value="'+race[i].start_time+'" step="2">';
             race_list += '          </div>';
             race_list += '          <div class="form-group col-xs-6">';
             race_list += '            <label for="date">Start Number</label>';
@@ -548,6 +570,7 @@ function view_races(){
     
                     start_time: {
                         required: true,
+                        step: false,
                     },
                     
                     start_number: {
@@ -615,8 +638,8 @@ function addRider(){
         start_time = race.start_time;
         hold_time = race.hold_time;
         // finish_time = 0;
-        // ride_time = format_time_to_display(finish_time - time_to_minutes(start_time) - parseInt(hold_time));
-        // console.log('time_to_minutes(start_time): '+time_to_minutes(start_time));
+        // ride_time = format_time_to_display(finish_time - time_to_seconds(start_time) - parseInt(hold_time));
+        // console.log('time_to_seconds(start_time): '+time_to_seconds(start_time));
         // console.log('hold_time: '+hold_time);
         // console.log('finish_time: '+finish_time);
         // console.log('ride_time: '+ride_time);
@@ -631,7 +654,7 @@ function addRider(){
             category: $('#addRiderForm select[name="category"]').val(),
             rider_number: 0,
             pull_code: 'None',
-            finish_time: '00:00',
+            finish_time: '00:00:00',
             recovery_score: '',
             hydration_score: '',
             lesions_score: '',
@@ -679,7 +702,7 @@ function addRider(){
             }
         
             tempRiderdbInstance.exist(tempRiderData).then(rider => {
-                if(!rider)
+                if(!rider && tempRiderData.id != '')
                     tempRiderdbInstance.create(tempRiderData);
                 // init_temp_rider_data();
                 rider_name_list.push(tempRiderData.name);
@@ -692,7 +715,7 @@ function addRider(){
             }
         
             tempHorsedbInstance.exist(tempHorseData).then(horse => {
-                if(!horse)
+                if(!horse && tempHorseData.id != '')
                     tempHorsedbInstance.create(tempHorseData);
                 // init_temp_horse_data();
                 horse_name_list.push(tempHorseData.name);
@@ -724,8 +747,8 @@ function editRace(id){
                 start_time = race_data.start_time;
                 hold_time = race_data.hold_time;
                 finish_time = item.finish_time;
-                finish_time = (finish_time != '' && finish_time != 0)?finish_time:"00:00";
-                ride_time = format_time_to_display(time_to_minutes(finish_time) - time_to_minutes(start_time) - parseInt(hold_time));
+                finish_time = (finish_time != '' && finish_time != 0)?finish_time:"00:00:00";
+                ride_time = format_time_to_display(time_to_seconds(finish_time) - time_to_seconds(start_time) - parseInt(hold_time)*60);
                 riderdbInstance.update(item._id, {rideTime: ride_time});
             });
         });
@@ -754,7 +777,7 @@ function editRider(id){
         }
     
         tempRiderdbInstance.exist(tempRiderData).then(rider => {
-            if(!rider)
+            if(!rider && tempRiderData.id != '')
                 tempRiderdbInstance.create(tempRiderData);
             // init_temp_rider_data();
             rider_name_list.push(tempRiderData.name);
@@ -767,7 +790,7 @@ function editRider(id){
         }
     
         tempHorsedbInstance.exist(tempHorseData).then(horse => {
-            if(!horse)
+            if(!horse && tempHorseData.id != '')
                 tempHorsedbInstance.create(tempHorseData);
             // init_temp_horse_data();
             horse_name_list.push(tempHorseData.name);
@@ -777,21 +800,22 @@ function editRider(id){
 }
 
 function editRiderResult(id){
+    completed_only = $(".edit-result-section-"+id+" form input[name='completed_only']").prop("checked");
     racedbInstance.read($('#current_race_id').val()).then(race => {
         start_time = race.start_time;
         hold_time = race.hold_time;
         finish_time = $(".edit-result-section-"+id+" form input[name='finish_time']").val();
-        finish_time = (finish_time != '')?finish_time:"00:00";
-        if(finish_time == "00:00")
+        finish_time = (finish_time != '')?finish_time:"00:00:00";
+        if(finish_time == "00:00:00")
             ride_time = ''
         else
-            ride_time = format_time_to_display(time_to_minutes(finish_time) - time_to_minutes(start_time) - parseInt(hold_time));
+            ride_time = format_time_to_display(time_to_seconds(finish_time) - time_to_seconds(start_time) - parseInt(hold_time)*60);
         // console.log('start_time: '+start_time);
         // console.log('hold_time: '+hold_time);
         // console.log('finish_time: '+finish_time);
         // console.log('ride_time: '+ride_time);
         pull_code = $(".edit-result-section-"+id+" form select[name='pull_code']").val();
-        if(pull_code == 'None')
+        if(pull_code == 'None' && !completed_only)
             data = {
                 pull_code: pull_code,
                 finish_time: $(".edit-result-section-"+id+" form input[name='finish_time']").val(),
@@ -801,26 +825,31 @@ function editRiderResult(id){
                 soundness_score: $(".edit-result-section-"+id+" form input[name='soundness_score']").val(),
                 quality_of_movement_score: $(".edit-result-section-"+id+" form input[name='quality_of_movement_score']").val(),
                 weight: $(".edit-result-section-"+id+" form input[name='weight']").val(),
-                rideTime: ride_time
+                rideTime: ride_time,
+                completed_only: completed_only
             };
-        else
+        else{
+            temp_finish_time = completed_only?finish_time:"00:00:00";
+            temp_rideTime = completed_only?ride_time:'';
             data = {
                 pull_code: pull_code,
-                finish_time: '00:00',
+                finish_time: temp_finish_time,
                 recovery_score: '',
                 hydration_score: '',
                 lesions_score: '',
                 soundness_score: '',
                 quality_of_movement_score: '',
                 weight: '',
-                rideTime: '',
+                rideTime: temp_rideTime,
                 placing:'',
                 bcScore:'',
                 ridePoints: '',
                 bcPoints: '',
                 bcPlacing: '',
-                vetScore: ''
+                vetScore: '',
+                completed_only: completed_only
             };
+        }
         riderdbInstance.update(id, data).then(result => {
             $('.result-item-'+id+' .item-detail .finish-time').html('Finish Time: '+data.finish_time);
             $('.result-item-'+id+' .item-detail .soundness-score').html('Soundness Score: '+data.soundness_score);
@@ -835,11 +864,21 @@ function editRiderResult(id){
                 $('.edit-result-section-'+id+' .other').show();
                 $('.result-item-'+id+' .other').show();
                 $('.result-item-'+id+' .pull-code').hide();
+                if(completed_only){
+                    $('.edit-result-section-'+id+' .other').hide();
+                    $('.edit-result-section-'+id+' .other.finish_time').show();
+                }
             }
             else{
                 $('.edit-result-section-'+id+' .other').hide();
                 $('.result-item-'+id+' .other').hide();
                 $('.result-item-'+id+' .pull-code').show();
+            }
+            if(completed_only){
+                $('.result-item-'+id+' .other.completed-only').show();
+            }
+            else{
+                $('.result-item-'+id+' .other.completed-only').hide();
             }
         });
     });
@@ -971,31 +1010,52 @@ function autocomplete(inp, arr, type) {
   }
 
 
-function time_to_minutes(time){
-    total_minute = 0;
+function time_to_seconds(time){
+    total_second = 0;
     parse_time = time.split(':');
-    total_minute = parseInt(parse_time[0]*60) + parseInt(parse_time[1]);
-    return total_minute;
+    total_second = parseInt(parse_time[0]*3600) + parseInt(parse_time[1]*60);
+    // console.log(parse_time[2]);
+    if(parse_time[2])
+        total_second += parseInt(parse_time[2]);
+    return total_second;
 }
 
-function format_time_to_display(total_minute){
+function format_time_to_display(total_second){
     format_time = '';
-    if(Math.abs(total_minute) > 60)
-        format_time += parseInt(Math.abs(total_minute) / 60) + ' h ';
-    if(total_minute % 60 != 0)
-        format_time += (Math.abs(total_minute) % 60) + ' m';
+    if(Math.abs(total_second) > 3600)
+        format_time += parseInt(Math.abs(total_second) / 3600) + ' h ';
+    if(total_second % 3600 != 0)
+        format_time += parseInt(Math.abs(total_second) % 3600 / 60) + ' m ';
+    if(total_second % 3600 % 60!= 0)
+        format_time += (Math.abs(total_second) % 3600 % 60) + ' s';
     if(format_time == '')
-        format_time += '0 minute';
-    if(total_minute < 0)
+        format_time += '0 second';
+    if(total_second < 0)
         format_time = '-'+format_time;
     return format_time;
 }
 
 function selected_pull_code(pull_code, rider_id){
+    completed_only = $('.edit-result-section-'+rider_id+' .completed-only input[type="checkbox"]').prop("checked");
     if(pull_code != 'None'){
         $('.edit-result-section-'+rider_id+' .other').hide();
     }
     else{
-        $('.edit-result-section-'+rider_id+' .other').show();
+        if(!completed_only)
+            $('.edit-result-section-'+rider_id+' .other').show();
     }
+}
+
+function add_event_on_completed_only(){
+    $('.completed-only input[type="checkbox"]').change(function(){
+        pull_code = $(this).parents('.edit-result-section').find('select[name=pull_code]').val();
+        if(this.checked){
+            $(this).parents('.edit-result-section').find('.other').hide();
+            $(this).parents('.edit-result-section').find('.other.finish_time').show();
+        }
+        else{
+            if(pull_code == "None")
+                $(this).parents('.edit-result-section').find('.other').show();
+        }
+    });
 }

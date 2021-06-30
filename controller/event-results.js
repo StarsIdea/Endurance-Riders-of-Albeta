@@ -49,7 +49,7 @@ $(document).ready(function(){
 function rider_results(rider_category = 'senior'){
     race_id = $('#selected_race').val();
     remote.getGlobal('sharedObj').race_id = race_id;
-    // remote.getGlobal('sharedObj').rider_category = rider_category;
+    remote.getGlobal('sharedObj').rider_category = rider_category;
     riderdbInstance.findRiderByRace(race_id).then(rider => {
         senior_section = '';
         youth_section = '';
@@ -72,6 +72,11 @@ function rider_results(rider_category = 'senior'){
                 row += '<td>'+rider[i].ridePoints+'</td>';
                 row += '<td>'+rider[i].bcPoints+'</td>';
                 row += '<td>'+rider[i].bcPlacing+'</td>';
+                field_for_completed_only = '';
+                if(rider[i].completed_only != undefined)
+                    if(rider[i].completed_only)
+                        field_for_completed_only = '<input type="checkbox" checked disabled>';
+                row += '<td>'+field_for_completed_only+'</td>';
                 row += '</tr>';
                 switch(rider[i].category){
                     case 'senior':
@@ -106,13 +111,23 @@ function calucate_result(rider_category){
                 rider_total_number = rider.length;
                 ranking = 1;
                 for(var i = 0; i < rider.length; i ++){
-                    if(finish_time_to_minute(rider[i].finish_time) == 0 || rider[i].finish_time == ''){
+                    completed_only = false;
+                    if(rider[i].completed_only != undefined){
+                        completed_only = rider[i].completed_only;
+                    }
+                    if(finish_time_to_minute(rider[i].finish_time) == 0 || rider[i].finish_time == '' || completed_only){
                         console.log('==========='+distance);
                         if(rider[i].pull_code == 'None'){
-                            rider[i].placing = 999999999999;
+                            if(completed_only)
+                                rider[i].placing = 1999999999999;
+                            else
+                                rider[i].placing = 999999999999;
                         }
                         else{
-                            rider[i].placing = 9999999999999;
+                            if(completed_only)
+                                rider[i].placing = 19999999999999;
+                            else
+                                rider[i].placing = 9999999999999;
                         }
                         rider[i].vetScore = '';
                         rider[i].bcScore = '';
@@ -120,8 +135,8 @@ function calucate_result(rider_category){
                     }
                     rider[i].placing = ranking;
                     ranking ++;
-                    points = 0;
-                    ridePoints = calc_points(rider_category, rider_total_number - i);
+                    points = '';
+                    ridePoints = calc_points(rider_category, rider_total_number, i);
                     if(distance >= 50 && distance < 75){
                         points = distance * ridePoints;
                     }
@@ -134,12 +149,20 @@ function calucate_result(rider_category){
                     else{
                         points = '';
                     }
-                    rider[i].vetScore = (rider[i].recovery_score *  10 + rider[i].hydration_score *  10 + rider[i].lesions_score *  10 + rider[i].soundness_score *  10 + rider[i].quality_of_movement_score *  10);
-                    rider[i].ridePoints = points;
-                    // if(distance >= 50){
+                    if(rider[i].recovery_score != '' && rider[i].hydration_score != '' && rider[i].lesions_score != '' && rider[i].soundness_score != '' && rider[i].quality_of_movement_score != '')
+                        rider[i].vetScore = (rider[i].recovery_score *  10 + rider[i].hydration_score * 10 + rider[i].lesions_score *  10 + rider[i].soundness_score *  10 + rider[i].quality_of_movement_score *  10);
+                    else{
+                        rider[i].vetScore = '';
+                    }
+                    rider[i].ridePoints = simplified_score(points);
+                    if(rider[i].recovery_score != '' && rider[i].hydration_score != '' && rider[i].lesions_score != '' && rider[i].soundness_score != '' && rider[i].quality_of_movement_score != '' && rider[i].weight != ''){
                         rider[i].bcScore = rider[i].vetScore * 1 + (200 - (finish_time_to_minute(rider[i].finish_time) * 1 - finish_time_to_minute(rider[0].finish_time) * 1)/60) + (100 - (max_weight_rider[0].weight * 1 - rider[i].weight * 1)/2);
-                        rider[i].bcScore = Math.floor(rider[i].bcScore*100)/100;
-                    // }
+                        // rider[i].bcScore = Math.floor(rider[i].bcScore*100)/100;
+                        rider[i].bcScore = simplified_score(rider[i].bcScore);
+                    }
+                    else{
+                        rider[i].bcScore = '';
+                    }
                 }
                 rider.sort((a,b) =>  b.bcScore-a.bcScore );
                 for(i = 0; i < rider.length; i ++){
@@ -147,18 +170,22 @@ function calucate_result(rider_category){
                         rider[i].bcPlacing = '';
                         continue;
                     }
-                    if(i == 0 && distance >= 50){
+                    if(i == 0 && distance >= 50 && rider.length != 1){
                         if(rider_total_number < 10)
                             rider[i].bcPoints = 0.1 * rider_total_number * distance;
                         else
                             rider[i].bcPoints = distance;
 
-                        rider[i].bcPoints = Math.floor(rider[i].bcPoints*100)/100;
+                        // rider[i].bcPoints = Math.floor(rider[i].bcPoints*100)/100;
+                        rider[i].bcPoints = simplified_score(rider[i].bcPoints);
                     }
                     else{
                         rider[i].bcPoints = '';
                     }
-                    rider[i].bcPlacing = i + 1;
+                    if(rider.length != 1)
+                        rider[i].bcPlacing = i + 1;
+                    else
+                        rider[i].bcPlacing = '';
                 }
                 rider.forEach(item => {
                     riderdbInstance.update(item._id, item);
@@ -173,19 +200,19 @@ function calucate_result(rider_category){
     
 }
 
-function calc_points(rider_category, rider_total_number){
+function calc_points(rider_category, rider_total_number, item){
     var total_points = 0;
     var index = [];
-    for(var i = 0; i < 11; i ++){
-        index[i] = (i < rider_total_number) ? 1 : 0;
+    for(var i = 0; i < 10; i ++){
+        index[i] = (i < rider_total_number-1 && i >= item) ? 1: 0;
     }
     switch(rider_category){
         case 'senior':
         case 'youth':
-            total_points = 1.0 * index[0] + 0.5 * index[1] + 0.3 * index[2] + 0.2 * index[3] + 0.2 * index[4] + 0.2 * index[5] + 0.2 * index[6] + 0.1 * index[7] + 0.1 * index[8] + 0.1 * index[9] + 0.1 * index[10];
+            total_points = 1.0 + 0.5 * index[0] + 0.3 * index[1] + 0.2 * index[2] + 0.2 * index[3] + 0.2 * index[4] + 0.2 * index[5] + 0.1 * index[6] + 0.1 * index[7] + 0.1 * index[8] + 0.1 * index[9];
             break;
         case 'junior':
-            total_points = 1.0 * index[0] + 0.8 * index[1] + 0.4 * index[2] + 0.4 * index[3] + 0.2 * index[4] + 0.2 * index[5];
+            total_points = 1.0 + 0.8 * index[0] + 0.4 * index[1] + 0.4 * index[2] + 0.2 * index[3] + 0.2 * index[4];
             break;
     }
     return total_points;
@@ -196,4 +223,10 @@ function finish_time_to_minute(finish_time){
     parse_time = finish_time.split(':');
     total_minute = parse_time[0]*60 + parse_time[1] * 1;
     return total_minute;
+}
+
+function simplified_score(score){
+    // if(score != '')
+        score = Math.floor(score*100)/100;
+    return score;
 }

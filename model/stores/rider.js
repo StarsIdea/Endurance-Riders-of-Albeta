@@ -34,7 +34,7 @@ class RiderStore {
     }
 
     findRider(race_id, search_value = '') {
-        return this.db.find({ race_id: race_id, rider_name: new RegExp(search_value, 'g')}).sort({rider_number: 1});
+        return this.db.find({ race_id: race_id, rider_name: new RegExp(search_value, 'g')}).sort({createdAt: -1});
     }
 
     findRidersByRaces(raceIds) {

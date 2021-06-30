@@ -37,7 +37,7 @@ class RaceStore {
     }
 
     findRaceByEvent(event_id) {
-        return this.db.find({ event_id: event_id});
+        return this.db.find({ event_id: event_id}).sort({"createdAt":'-1'});
     }
 
     read(_id) {

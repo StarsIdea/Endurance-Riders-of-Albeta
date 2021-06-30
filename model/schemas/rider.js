@@ -76,6 +76,9 @@ const riderSchema = {
       },
       race_id: {
           type: 'string'
+      },
+      completed_only: {
+          type: 'boolean'
       }
     }
   };

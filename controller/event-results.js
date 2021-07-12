@@ -156,7 +156,12 @@ function calucate_result(rider_category){
                     }
                     rider[i].ridePoints = simplified_score(points);
                     if(rider[i].recovery_score != '' && rider[i].hydration_score != '' && rider[i].lesions_score != '' && rider[i].soundness_score != '' && rider[i].quality_of_movement_score != '' && rider[i].weight != ''){
-                        rider[i].bcScore = rider[i].vetScore * 1 + (200 - (finish_time_to_minute(rider[i].finish_time) * 1 - finish_time_to_minute(rider[0].finish_time) * 1)/60) + (100 - (max_weight_rider[0].weight * 1 - rider[i].weight * 1)/2);
+                        time_delay = finish_time_to_minute(rider[i].finish_time) * 1 - finish_time_to_minute(rider[0].finish_time) * 1;
+                        time_factor = time_delay >= 200 ? 0 : 200 - time_delay;
+                        diff_weight = (max_weight_rider[0].weight * 1 - rider[i].weight * 1)/2;
+                        weight_factor = diff_weight >= 100 ? 0 : 100 - diff_weight;
+                        
+                        rider[i].bcScore = rider[i].vetScore * 1 + time_factor + weight_factor;
                         // rider[i].bcScore = Math.floor(rider[i].bcScore*100)/100;
                         rider[i].bcScore = simplified_score(rider[i].bcScore);
                     }
